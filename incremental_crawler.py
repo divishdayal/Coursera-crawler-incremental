@@ -364,6 +364,7 @@ if __name__ == "__main__":
 	userId = config['UserId']
 	filePath = config['filePath']
 	debug = config['debug']
+	cookie_browser = config['cookie']
 
 	conn = sqlite3.connect(db_path)
 	conn.text_factory = str
@@ -374,7 +375,7 @@ if __name__ == "__main__":
 	scraper.driver.add_cookie({
 		'domain': '.coursera.org',
 		'name': 'CAUTH',
-		'value': '',
+		'value': cookie_browser,
 		'path': '/', 
 		'expires': None
 	})
