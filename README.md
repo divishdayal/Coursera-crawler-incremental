@@ -11,7 +11,7 @@ Enviroment setup
       3. Download Phantomjs <a href="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-windows.zip"> here</a> for Windows, <a href="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-macosx.zip"> here</a> for MacOS and <a href="https://bitbucket.org/ariya/phantomjs/downloads/phantomjs-2.1.1-linux-x86_64.tar.bz2"> here</a> for Linux-64 bit( <a href="http://phantomjs.org/download.html"> Other references</a>), install it and add the path to 'phantomjsPath' of config.yml.
 
 # Setup :
-# Populate the config.yml file
+Populate the config.yml file :
 <1> "UserName" is the username for coursera account;
 	
 <2> "Password" is the password for coursera account;
@@ -38,6 +38,7 @@ Enviroment setup
   
 <10> "cookie" :  Add the cookie for login into coursera using the browser. http://www.whatarecookies.com/view.asp
   
-Run using : python incremental_crawler.py
+# Run 
+	python incremental_crawler.py
 
 The crawled data will be saved in folders. Every course has a folder named as courseName_courseID_crawlTime(%Y_%m_%d)
