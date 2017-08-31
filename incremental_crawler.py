@@ -151,6 +151,76 @@ def get_new_threads(rootCourseForumId, cookie,cur,fileout,userId):
 	#returning list of threadId's to be crawled for posts/users
 	return threadsIdList
 
+def createTables(conn, c):
+    """
+    Create tables: user, thread and post.
+    :param conn: connection to target database
+    :param c: cursor of the connection
+    :return:
+    """
+
+    #***********************************for users******************************#
+    # c.execute('drop table if EXISTS user')
+    c.execute('''CREATE TABLE if not exists `user` \
+    ( \
+    'photoUrl' TEXT, \
+    `courseId` TEXT, \
+    `userId` INTEGER, \
+    `id` TEXT PRIMARY KEY, \
+    `learnerId` INTEGER, \
+    `courseRole` TEXT, \
+    `fullName` TEXT, \
+    'externalUserId' TEXT \
+    ); ''')
+    # ***********************************for threads******************************#
+    # c.execute('drop table if EXISTS thread')
+    c.execute('''CREATE TABLE if not exists `thread` \
+    ('answerBadge' TEXT, \
+    'hasResolved' INTEGER, \
+    'instReplied' INTEGER, \
+    'totalAnswerCount' INTEGER, \
+    'isFollowing' INTEGER, \
+    'forumQuestionId' TEXT, \
+    `lastAnsweredAt` INTEGER, \
+    `topLevelAnswerCount` INTEGER, \
+    `isFlagged` INTEGER, \
+    'lastAnsweredBy' INTEGER, \
+    'state' TEXT, \
+    'followCount' INTEGER, \
+    'title' TEXT, \
+    'content' TEXT, \
+    'viewCount' INTEGER, \
+    'sessionId' TEXT, \
+    'forumId' TEXT, \
+    'creatorId' INTEGER, \
+    'isUpvoted' INTEGER, \
+    'id' TEXT, \
+    'courseId' TEXT, \
+    'threadId' TEXT PRIMARY KEY, \
+    'createdAt' INTEGER, \
+    'upvoteCount' INTEGER \
+    ); \
+    ''')
+    # ***********************************for posts******************************#
+    # c.execute('drop table if EXISTS post')
+    c.execute('''CREATE TABLE if not exists `post` \
+    ('parentForumAnswerId' TEXT, \
+    'forumQuestionId' TEXT, \
+    'isFlagged' INTEGER, \
+    'order' INTEGER, \
+    'content' TEXT, \
+    'state' BLOB, \
+    'childAnswerCount' INTEGER, \
+    'creatorId' INTEGER, \
+    'isUpvoted' INTEGER, \
+    'id' TEXT, \
+    'courseId' TEXT, \
+    'postId' TEXT PRIMARY KEY, \
+    'createdAt' INTEGER, \
+    'upvoteCount' INTEGER \
+    ); \
+    ''')
+
 #writes/updates the thread table in the database
 def write_to_sql_thread(cursor, fileout):
 	"""
@@ -370,6 +440,8 @@ if __name__ == "__main__":
 	conn.text_factory = str
 	cur = conn.cursor()
 
+	# check if tables exist - create otherwise
+	createTables(conn, cur)
 
 	#adding the cookie for signing into coursera for the wing.nus account.
 	scraper.driver.add_cookie({
