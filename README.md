@@ -12,6 +12,7 @@ Enviroment setup
 
 # Setup :
 Populate the config.yml file :
+
 <1> "UserName" is the username for coursera account;
 	
 <2> "Password" is the password for coursera account;
@@ -22,7 +23,7 @@ Populate the config.yml file :
 	    
 	    You can see an API link "https://www.coursera.org/api/openCourseMemberships.v1/?q=findByUser&userId=XXX", your userid is "XXX".
 	
-<4> "filePath" is the path to save the data you crawled.
+<4> "filePath" is the path to save the data you crawled. Make a 'data' folder in the same directory and add the relative path to it here. eg. './data/'
   
         When you login, you will see "My Courses", including "Last Active" and "Inactive".
 	
@@ -32,11 +33,11 @@ Populate the config.yml file :
 	
 <7> "phantomjsPath" is the executable file path of phantomjs.
 
-<8> "dbPath" is the location of the sqlite3 database file on disk.
+<8> "dbPath" is the location of the sqlite3 database file on disk. For fist run - make a blank database.
 
 <9> "debug" : set it to one to see debug messages in the terminal on running the code, otherwise set it to 0.
   
-<10> "cookie" :  Add the cookie for login into coursera using the browser. http://www.whatarecookies.com/view.asp
+<10> "cookie" :  First sign in to your coursera account on any web browser. Add the cookie after logging into the coursera account using the browser.Instructions to get the cookie variable - http://www.whatarecookies.com/view.asp
   
 # Run 
 	python incremental_crawler.py
