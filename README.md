@@ -13,31 +13,31 @@ Enviroment setup
 # Setup :
 Populate the config.yml file :
 
-<1> "UserName" is the username for coursera account;
+1. "UserName" is the username for coursera account;
 	
-<2> "Password" is the password for coursera account;
+2. "Password" is the password for coursera account;
 	
-<3> "UserId" is the ID for every account.
+3. "UserId" is the ID for every account.
 	    
 	    First, you have to login using your coursera account on the website. Then press F12, select "Network" and choose XHR. 
 	    
 	    You can see an API link "https://www.coursera.org/api/openCourseMemberships.v1/?q=findByUser&userId=XXX", your userid is "XXX".
 	
-<4> "filePath" is the path to save the data you crawled. Make a 'data' folder in the same directory and add the relative path to it here. eg. './data/'
+4. "filePath" is the path to save the data you crawled. Make a 'data' folder in the same directory and add the relative path to it here. eg. './data/'
   
         When you login, you will see "My Courses", including "Last Active" and "Inactive".
 	
-<5> "activeCoursePageNum" is the maximum pages of your "Last Active" courses you want to crawl.
+5. "activeCoursePageNum" is the maximum pages of your "Last Active" courses you want to crawl.
 	
-<6> "inactiveCoursePageNum" is the maximum pages of your "Inactive" courses you want to crawl.
+6. "inactiveCoursePageNum" is the maximum pages of your "Inactive" courses you want to crawl.
 	
-<7> "phantomjsPath" is the executable file path of phantomjs.
+7. "phantomjsPath" is the executable file path of phantomjs.
 
-<8> "dbPath" is the location of the sqlite3 database file on disk. For fist run - make a blank database.
+8. "dbPath" is the location of the sqlite3 database file on disk. For fist run - make a blank database.
 
-<9> "debug" : set it to one to see debug messages in the terminal on running the code, otherwise set it to 0.
+9. "debug" : set it to one to see debug messages in the terminal on running the code, otherwise set it to 0.
   
-<10> "cookie" :  First sign in to your coursera account on any web browser. Add the cookie after logging into the coursera account using the browser.Instructions to get the cookie variable - http://www.whatarecookies.com/view.asp
+10. "cookie" :  First sign in to your coursera account on any web browser. Add the cookie after logging into the coursera account using the browser.Instructions to get the cookie variable - http://www.whatarecookies.com/view.asp
   
 # Run 
 	python incremental_crawler.py
