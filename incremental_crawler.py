@@ -469,70 +469,14 @@ if __name__ == "__main__":
 
 		#crawling the active courses
 		for i in range(len(active_course_ids)):
-			if (active_course_ids[i] == 'Bkx-PB00Eea0YQ7Ij7lJXw') :
-				if debug:
-					print 'Getting active courses!Total:%d...Processing:%d' % (len(active_course_ids),i+1)
-				courseId = active_course_ids[i]
-				courseName = course_id_and_name[courseId]
-				if debug : 
-					print 'crawling course - ', courseName
-
-				#files to store the retrieved information for the courses in json format
-				newFilePath = filePath + str(courseName) + '_' + str(courseId) + '_' + str(time.strftime('%Y_%m_%d')) + '/'
-				isExists = os.path.exists(newFilePath)
-				if not isExists:
-					os.mkdir(newFilePath)
-				file1 = newFilePath + 'threads.json'
-				fileoutThreads = open(file1,'w+')
-				file2 = newFilePath + 'posts.json'
-				fileoutPosts = open(file2,'w+')
-				file3 = newFilePath + 'users.json'
-				fileoutUsers = open(file3,'w+')
-				
-				#getting cookie and other information to crawl for course info
-				cookie = scraper.get_cookie(courseName)
-				rootCourseForumId = scraper.get_courseforum_id(courseId,courseName,cookie=cookie)
-
-				#The thread id's in the list are the ones that are updated/new - which need to be crawled by the crawler
-				threadsIdList = get_new_threads(rootCourseForumId,cookie,cur, fileout=fileoutThreads,userId=userId)
-				if debug:
-					print 'got the threadsIdList to be updated'
-
-				#writing to thread table in the databse
-				write_to_sql_thread(cur, fileout = fileoutThreads)
-				if debug: 
-					print 'inserted into table - threads'
-
-				#getting user/post information for each of the updated/new threads in the threadIdList
-				for j in range(len(threadsIdList)):
-					threadId = threadsIdList[j]
-					post = scraper.get_posts(threadId,cookie,fileoutPost=fileoutPosts,fileoutUser=fileoutUsers)
-
-				#writing to post table in the database
-				write_to_sql_post(cur, fileout = fileoutPosts)
-				if debug:
-					print 'inserted into table - posts'
-
-				#writing to sql table in the database
-				write_to_sql_user(cur, fileout = fileoutUsers)
-				if debug:
-					print 'inserted into table - users'
-
-				#closing the file pointers
-				fileoutThreads.close()
-				fileoutPosts.close()
-				fileoutUsers.close()
-
-		# For inactive courses -----------------------------------------------------------------------------------
-		# --------------------------------------------------------------------------------------------------------
-		inactiveCoursePageNum = config['inactiveCoursePageNum']
-		inactive_course_ids, course_id_and_name = scraper.get_inactive_courses(inactiveCoursePageNum)
-		for i in range(range(len(inactive_course_ids))):
 			if debug:
-				print 'Getting inactive courses!Total:%d...Processing:%d' % (len(active_course_ids),i+1)
+				print 'Getting active courses!Total:%d...Processing:%d' % (len(active_course_ids),i+1)
 			courseId = active_course_ids[i]
 			courseName = course_id_and_name[courseId]
+			if debug : 
+				print 'crawling course - ', courseName
 
+			#files to store the retrieved information for the courses in json format
 			newFilePath = filePath + str(courseName) + '_' + str(courseId) + '_' + str(time.strftime('%Y_%m_%d')) + '/'
 			isExists = os.path.exists(newFilePath)
 			if not isExists:
@@ -544,23 +488,78 @@ if __name__ == "__main__":
 			file3 = newFilePath + 'users.json'
 			fileoutUsers = open(file3,'w+')
 
+			#getting cookie and other information to crawl for course info
 			cookie = scraper.get_cookie(courseName)
 			rootCourseForumId = scraper.get_courseforum_id(courseId,courseName,cookie=cookie)
-			threadsIdList = get_new_threads(rootCourseForumId,COOKIEie,cur, fileout=fileoutThreads,userId=userId)
+
+			#The thread id's in the list are the ones that are updated/new - which need to be crawled by the crawler
+			threadsIdList = get_new_threads(rootCourseForumId,cookie,cur, fileout=fileoutThreads,userId=userId)
 			if debug:
 				print 'got the threadsIdList to be updated'
+
+			#writing to thread table in the databse
 			write_to_sql_thread(cur, fileout = fileoutThreads)
 			if debug: 
 				print 'inserted into table - threads'
+
+			#getting user/post information for each of the updated/new threads in the threadIdList
 			for j in range(len(threadsIdList)):
 				threadId = threadsIdList[j]
 				post = scraper.get_posts(threadId,cookie,fileoutPost=fileoutPosts,fileoutUser=fileoutUsers)
+
+			#writing to post table in the database
 			write_to_sql_post(cur, fileout = fileoutPosts)
 			if debug:
-				print 'Successfully get all the posts!'
+				print 'inserted into table - posts'
+
+			#writing to sql table in the database
+			write_to_sql_user(cur, fileout = fileoutUsers)
+			if debug:
+				print 'inserted into table - users'
+
+			#closing the file pointers
 			fileoutThreads.close()
 			fileoutPosts.close()
 			fileoutUsers.close()
+
+	# For inactive courses -----------------------------------------------------------------------------------
+	# --------------------------------------------------------------------------------------------------------
+	inactiveCoursePageNum = config['inactiveCoursePageNum']
+	inactive_course_ids, course_id_and_name = scraper.get_inactive_courses(inactiveCoursePageNum)
+	for i in range(range(len(inactive_course_ids))):
+		if debug:
+			print 'Getting inactive courses!Total:%d...Processing:%d' % (len(active_course_ids),i+1)
+		courseId = active_course_ids[i]
+		courseName = course_id_and_name[courseId]
+
+		newFilePath = filePath + str(courseName) + '_' + str(courseId) + '_' + str(time.strftime('%Y_%m_%d')) + '/'
+		isExists = os.path.exists(newFilePath)
+		if not isExists:
+			os.mkdir(newFilePath)
+		file1 = newFilePath + 'threads.json'
+		fileoutThreads = open(file1,'w+')
+		file2 = newFilePath + 'posts.json'
+		fileoutPosts = open(file2,'w+')
+		file3 = newFilePath + 'users.json'
+		fileoutUsers = open(file3,'w+')
+
+		cookie = scraper.get_cookie(courseName)
+		rootCourseForumId = scraper.get_courseforum_id(courseId,courseName,cookie=cookie)
+		threadsIdList = get_new_threads(rootCourseForumId,COOKIEie,cur, fileout=fileoutThreads,userId=userId)
+		if debug:
+			print 'got the threadsIdList to be updated'
+		write_to_sql_thread(cur, fileout = fileoutThreads)
+		if debug: 
+			print 'inserted into table - threads'
+		for j in range(len(threadsIdList)):
+			threadId = threadsIdList[j]
+			post = scraper.get_posts(threadId,cookie,fileoutPost=fileoutPosts,fileoutUser=fileoutUsers)
+		write_to_sql_post(cur, fileout = fileoutPosts)
+		if debug:
+			print 'Successfully get all the posts!'
+		fileoutThreads.close()
+		fileoutPosts.close()
+		fileoutUsers.close()
 		
 
 
