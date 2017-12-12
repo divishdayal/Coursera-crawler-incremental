@@ -526,7 +526,7 @@ if __name__ == "__main__":
 	# --------------------------------------------------------------------------------------------------------
 	inactiveCoursePageNum = config['inactiveCoursePageNum']
 	inactive_course_ids, course_id_and_name = scraper.get_inactive_courses(inactiveCoursePageNum)
-	for i in range(range(len(inactive_course_ids))):
+	for i in range(len(inactive_course_ids)):
 		if debug:
 			print 'Getting inactive courses!Total:%d...Processing:%d' % (len(active_course_ids),i+1)
 		courseId = active_course_ids[i]
